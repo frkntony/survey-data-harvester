@@ -37,6 +37,23 @@ export default class Harvester extends Component {
     e.preventDefault()
     this.setState( {fullName: this.refs.name.value}, () => console.log(this.state) )
   }
+
+  handleQuestions = (e) => {
+    e.preventDefault()
+    this.setState( {
+      answers: {
+        answer1 : this.refs.formQ1.value,
+        answer2 : this.refs.formQ2.value,
+        answer3 : this.refs.formQ3.value
+      }
+    }, () => {
+      firebase.database().ref('surveyAnswers/' + this.state.uid).set({
+        // setup my data in firebase
+        fullName: this.state.fullName,
+        answers: this.state.answers
+      })
+    })
+  }
   
   render() {
 
@@ -54,7 +71,21 @@ export default class Harvester extends Component {
       formQuestions = ''
     } else if (this.state.fullName !== '' && this.state.isSubmitted === false) {
       nameGreetings = <h1>Welcome to personal data harvester, {this.state.fullName} </h1>
-      formQuestions = <p>TO:DO questions</p>
+      formQuestions = <div>
+
+        <form onSubmit={this.handleQuestions}>
+          <label htmlFor='formQ1'><p>Where do you live?</p></label>
+          <input id='formQ1' ref='formQ1' type='text' placeholder='I live...' />
+          <br />
+          <label htmlFor='formQ2'><p>What are your guilty pleasures?</p></label>
+          <input id='formQ2' ref='formQ2' type='text' placeholder='My guilty pleasures are...' />
+          <br />
+          <label htmlFor='formQ3'><p>How much money do you make?</p></label>
+          <input id='formQ3' ref='formQ3' type='text' placeholder='I make...' />
+          <button type='submit'>Submit</button>
+        </form>
+
+      </div>
     }
 
     return (
