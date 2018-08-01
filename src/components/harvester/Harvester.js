@@ -95,7 +95,7 @@ export default class Harvester extends Component {
 
     } else if (this.state.isSubmitted === true) {
       nameGreetings = <p>Your personal data will be proceded</p>
-      formQuestions = <img src='images/checkmark.png' />
+      formQuestions = <img alt='submitted' src='images/checkmark.png' />
     }
 
     return (
